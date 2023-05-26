@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Crd.DataAccess.Migrations\Crd.DataAccess.Migrations.csproj" />
+    <ProjectReference Include="..\Crd.DataAccess.Migrations\Cdr.DataAccess.Migrations.csproj" />
   </ItemGroup>
 
 </Project>

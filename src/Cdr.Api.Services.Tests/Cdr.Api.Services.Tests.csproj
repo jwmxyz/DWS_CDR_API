@@ -32,7 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cdr.Api.Services\Cdr.Api.Services.csproj" />
-    <ProjectReference Include="..\Crd.DataAccess.Migrations\Crd.DataAccess.Migrations.csproj" />
+    <ProjectReference Include="..\Crd.DataAccess.Migrations\Cdr.DataAccess.Migrations.csproj" />
   </ItemGroup>
 
 </Project>

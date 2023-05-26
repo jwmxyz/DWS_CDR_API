@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cdr.Api", "Cdr.Api\Cdr.Api.csproj", "{7566749B-0BBA-4950-A9EC-B82D2926AFC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crd.DataAccess.Migrations", "Crd.DataAccess.Migrations\Crd.DataAccess.Migrations.csproj", "{5BFEA76A-3DDC-4AEE-BEDD-87561AA92B4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cdr.DataAccess.Migrations", "Crd.DataAccess.Migrations\Cdr.DataAccess.Migrations.csproj", "{5BFEA76A-3DDC-4AEE-BEDD-87561AA92B4C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cdr.Api.Services", "Cdr.Api.Services\Cdr.Api.Services.csproj", "{F2EE8D3E-3629-4746-B0D6-CB9031AD500D}"
 EndProject
