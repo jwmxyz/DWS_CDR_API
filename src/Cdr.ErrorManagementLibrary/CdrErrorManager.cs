@@ -18,6 +18,7 @@ namespace Cdr.ErrorManagement
             new CdrError(ErrorCodes.INVALID_JSON_DATA, "The JSON data that you have submitted is invalid."),
             new CdrError(ErrorCodes.INVALID_DATE, "The date you have submitted is invalid."),
             new CdrError(ErrorCodes.INVALID_CSV_FILE, "The provided CSV file is invalid or contains errors."),
+            new CdrError(ErrorCodes.NOT_FOUND, "The resource you were looking for could not be found"),
         };
 
         public CdrError this[string code]
@@ -41,6 +42,13 @@ namespace Cdr.ErrorManagement
         {
             _logger.LogWarning(message, inner);
             return Activator.CreateInstance(typeof(T), message, inner) as T ?? throw new Exception("Error creating generic exception, last message: " + message);
+        }
+
+        /// <inheritdoc cref="ICdrErrorManager.LogWarningAndReturnException{T}(string)" />
+        public T LogWarningAndReturnException<T>(string message) where T : Exception
+        {
+            _logger.LogWarning(message);
+            return Activator.CreateInstance(typeof(T), message) as T ?? throw new Exception("Error creating generic exception, last message: " + message);
         }
     }
 }

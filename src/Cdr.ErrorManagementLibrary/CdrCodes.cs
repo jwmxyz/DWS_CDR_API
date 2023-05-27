@@ -9,6 +9,7 @@
             public const string INVALID_JSON_DATA = PREFIX + "002";
             public const string INVALID_DATE = PREFIX + "003";
             public const string INVALID_CSV_FILE = PREFIX + "004";
+            public const string NOT_FOUND = PREFIX + "005";
         }
     }
 }

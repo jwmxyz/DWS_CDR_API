@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cdr.SharedLibrary\Cdr.SharedLibrary.csproj" />
     <ProjectReference Include="..\Crd.DataAccess.Migrations\Cdr.DataAccess.Migrations.csproj" />
   </ItemGroup>
 
