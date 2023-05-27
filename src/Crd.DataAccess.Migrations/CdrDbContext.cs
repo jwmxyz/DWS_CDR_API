@@ -11,9 +11,8 @@ namespace Crd.DataAccess.Migrations
 
         public CdrDbContext() : base()
         {
-            var folder = Environment.SpecialFolder.LocalApplicationData;
-            var path = Environment.GetFolderPath(folder);
-            DbPath = Path.Join(path, "cdr.db");
+            var folder = Environment.CurrentDirectory;
+            DbPath = Path.Join(folder, "cdr.db");
         }
 
         public CdrDbContext(DbContextOptions<CdrDbContext> options)
@@ -21,6 +20,13 @@ namespace Crd.DataAccess.Migrations
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlite($"Data Source={DbPath}");
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite($"Data Source={DbPath}");
+            }
+        }
     }
 }

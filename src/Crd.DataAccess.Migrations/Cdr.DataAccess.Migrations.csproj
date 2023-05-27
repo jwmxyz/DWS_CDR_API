@@ -20,4 +20,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="cdr.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

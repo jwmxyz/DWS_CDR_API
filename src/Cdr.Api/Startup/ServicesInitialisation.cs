@@ -1,4 +1,12 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Cdr.Api.Pipeline.Filters;
+using Cdr.Api.Services;
+using Cdr.DataAccess;
+using Cdr.ErrorManagement;
+using Crd.DataAccess.Migrations;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using NLog.Extensions.Logging;
 using System.Reflection;
 
 namespace Cdr.Api.Startup
@@ -7,13 +15,46 @@ namespace Cdr.Api.Startup
     {
         public static IServiceCollection RegisterApplicationServices(this IServiceCollection services, WebApplicationBuilder builder) {
             RegisterSwagger(services);
+            RegisterDatabaseContextDependencies(services);
             RegisterCustomDependencies(services);
+            RegisterLoggingDependencies(services, builder);  
             return services;
         }
 
         private static void RegisterCustomDependencies(IServiceCollection services)
         {
-            services.AddControllers();
+            services
+                .AddScoped<ICsvServices, CsvServices>()
+                .AddScoped<ICallRecordRepository, CallRecordRepository>()
+                .AddScoped<IUploadsServices, UploadsServices>()
+                .AddScoped<ICdrErrorManager, CdrErrorManager>()
+                .AddControllers(opt =>
+                {
+                    opt.Filters.Add(typeof(CdrExceptionFilter));
+                });
+
+
+            //ignores the InvalidModelStateResponseFactory 
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+        }
+
+        private static void RegisterLoggingDependencies(IServiceCollection services, WebApplicationBuilder builder)
+        {
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddNLog(builder.Configuration);
+            });
+        }
+
+        private static void RegisterDatabaseContextDependencies(IServiceCollection services)
+        {
+            var migrationsAssembly = Path.GetDirectoryName(Assembly.GetAssembly(typeof(CdrDbContext)).Location);
+            services.AddDbContext<CdrDbContext>(
+                options => { options.UseSqlite($"Data Source={migrationsAssembly}/cdr.db"); }
+            );
         }
 
         /// <summary>
