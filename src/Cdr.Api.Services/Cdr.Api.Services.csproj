@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cdr.DataAccess\Cdr.DataAccess.csproj" />
+    <ProjectReference Include="..\Cdr.ErrorManagementLibrary\Cdr.ErrorManagementLibrary.csproj" />
     <ProjectReference Include="..\Crd.DataAccess.Migrations\Cdr.DataAccess.Migrations.csproj" />
   </ItemGroup>
 

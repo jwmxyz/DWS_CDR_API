@@ -1,8 +1,12 @@
-﻿using Cdr.Api.Services;
+﻿using Cdr.Api.Pipeline.Filters;
+using Cdr.Api.Services;
 using Cdr.DataAccess;
+using Cdr.ErrorManagement;
 using Crd.DataAccess.Migrations;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using NLog.Extensions.Logging;
 using System.Reflection;
 
 namespace Cdr.Api.Startup
@@ -13,6 +17,7 @@ namespace Cdr.Api.Startup
             RegisterSwagger(services);
             RegisterDatabaseContextDependencies(services);
             RegisterCustomDependencies(services);
+            RegisterLoggingDependencies(services, builder);  
             return services;
         }
 
@@ -22,7 +27,26 @@ namespace Cdr.Api.Startup
                 .AddScoped<ICsvServices, CsvServices>()
                 .AddScoped<ICallRecordRepository, CallRecordRepository>()
                 .AddScoped<IUploadsServices, UploadsServices>()
-                .AddControllers();
+                .AddScoped<ICdrErrorManager, CdrErrorManager>()
+                .AddControllers(opt =>
+                {
+                    opt.Filters.Add(typeof(CdrExceptionFilter));
+                });
+
+
+            //ignores the InvalidModelStateResponseFactory 
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+        }
+
+        private static void RegisterLoggingDependencies(IServiceCollection services, WebApplicationBuilder builder)
+        {
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddNLog(builder.Configuration);
+            });
         }
 
         private static void RegisterDatabaseContextDependencies(IServiceCollection services)

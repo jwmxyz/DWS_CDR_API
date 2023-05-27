@@ -1,5 +1,9 @@
 using Cdr.Api.Services.CsvMappings;
+using Cdr.ErrorManagement;
+using Cdr.ErrorManagement.Exceptions;
 using Crd.DataAccess.Migrations.DbModels;
+using Microsoft.Extensions.Logging;
+using Moq;
 
 namespace Cdr.Api.Services.Tests
 {
@@ -7,11 +11,19 @@ namespace Cdr.Api.Services.Tests
     public class CsvServicesTests
     {
         private CsvServices _csvServices;
+        private Mock<ICdrErrorManager> _errorManagerMock;
+        private Mock<ILogger<ICdrErrorManager>> _loggerMock;
 
         [TestInitialize]
         public void Initialise()
         {
-            _csvServices = new CsvServices();
+            _loggerMock = new Mock<ILogger<ICdrErrorManager>>();
+            _errorManagerMock = new Mock<ICdrErrorManager>();
+            _errorManagerMock
+                .Setup(x => x.LogErrorAndReturnException<Exception>(It.IsAny<string>(), It.IsAny<Exception>()))
+                .Returns(new InvalidCsvException("test"));
+
+            _csvServices = new CsvServices(_errorManagerMock.Object);
         }
 
         [TestMethod]
@@ -33,7 +45,7 @@ namespace Cdr.Api.Services.Tests
             //Arrange
             var stream = File.OpenRead("InvalidDateCsv.csv");
             //Act & Assert
-            Assert.ThrowsException<Exception>(() => _csvServices.Read<CallRecord, CallRecordMapping>(stream));
+            Assert.ThrowsException<InvalidCsvException>(() => _csvServices.Read<CallRecord, CallRecordMapping>(stream));
         }
     }
 }

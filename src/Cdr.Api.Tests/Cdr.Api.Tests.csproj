@@ -10,20 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="TestDataFiles\InvalidDateCsv.csv" />
-    <None Remove="TestDataFiles\ValidCsv.csv" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="TestDataFiles\InvalidDateCsv.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestDataFiles\ValidCsv.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
     <PackageReference Include="Moq" Version="4.18.4" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
@@ -32,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cdr.Api.Services\Cdr.Api.Services.csproj" />
-    <ProjectReference Include="..\Crd.DataAccess.Migrations\Cdr.DataAccess.Migrations.csproj" />
+    <ProjectReference Include="..\Cdr.Api\Cdr.Api.csproj" />
+    <ProjectReference Include="..\Cdr.ErrorManagementLibrary\Cdr.ErrorManagementLibrary.csproj" />
   </ItemGroup>
 
 </Project>
