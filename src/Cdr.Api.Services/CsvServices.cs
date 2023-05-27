@@ -1,4 +1,6 @@
-﻿using CsvHelper;
+﻿using Cdr.ErrorManagement;
+using Cdr.ErrorManagement.Exceptions;
+using CsvHelper;
 using CsvHelper.Configuration;
 using System.Globalization;
 
@@ -6,6 +8,12 @@ namespace Cdr.Api.Services
 {
     public class CsvServices : ICsvServices
     {
+        private readonly ICdrErrorManager _cdrErrorManager;
+
+        public CsvServices(ICdrErrorManager cdrErrorManager) {
+            _cdrErrorManager = cdrErrorManager;
+        }
+
         /// <inheritdoc cref="ICsvServices.Read{T, K}(Stream, bool)" />
         public List<T> Read<T, K>(Stream file, bool firstRowIsHeading = true) where K : ClassMap<T>
         {
@@ -22,7 +30,7 @@ namespace Cdr.Api.Services
                 return records;
             } catch (Exception ex)
             {
-                throw new Exception("Error when parsing .csv file");
+                throw _cdrErrorManager.LogErrorAndReturnException<InvalidCsvException>("Invalid CSV - Error When parsing", ex.InnerException);
             }
         }
     }

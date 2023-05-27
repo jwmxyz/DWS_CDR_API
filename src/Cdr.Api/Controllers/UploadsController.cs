@@ -1,9 +1,11 @@
-﻿using Cdr.Api.Services;
+﻿using Cdr.Api.Pipeline.ActionFilters;
+using Cdr.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cdr.Api.Controllers
 {
     [Route("[controller]"), ApiController]
+    [IncomingRequestModelValidationActionFilter]
     public class UploadsController : ControllerBase
     {
         private readonly IUploadsServices _uploadServices;
