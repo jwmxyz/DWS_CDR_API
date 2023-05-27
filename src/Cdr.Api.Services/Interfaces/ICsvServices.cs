@@ -1,4 +1,6 @@
-﻿using CsvHelper.Configuration;
+﻿using Cdr.Api.Services.Models;
+using Crd.DataAccess.Migrations.DbModels;
+using CsvHelper.Configuration;
 
 namespace Cdr.Api.Services
 {
@@ -11,6 +13,13 @@ namespace Cdr.Api.Services
         /// <typeparam name="K">The object representing the mappings of incoming CSVs to an object</typeparam>
         /// <param name="file">The stream of the input file</param>
         /// <returns>A list of parsed objects from the csv</returns>
-        List<T> Read<T, K>(Stream file, bool firstRowIsHeading = true) where K : ClassMap<T>;
+        CsvParsingResults<T> Read<T, K>(Stream file, bool firstRowIsHeading = true) where K : ClassMap<T>;
+
+        /// <summary>
+        /// A simple method to remove duplicate data from the call records and update the errors array
+        /// </summary>
+        /// <param name="results">the results we want to check</param>
+        /// <returns>the update reuslts object</returns>
+        CsvParsingResults<CallRecord> DeduplicateCallReferences(CsvParsingResults<CallRecord> results);
     }
 }

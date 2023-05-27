@@ -1,5 +1,6 @@
 ﻿using Crd.DataAccess.Migrations;
 using Crd.DataAccess.Migrations.DbModels;
+using EFCore.BulkExtensions;
 
 namespace Cdr.DataAccess
 {
@@ -15,8 +16,16 @@ namespace Cdr.DataAccess
         /// <inheritdoc cref="ICallRecordRepository.SaveCallRecords(IEnumerable{CallRecord})" />
         public async Task<bool> SaveCallRecords(IEnumerable<CallRecord> callRecords)
         {
-            _dbContext.CallRecords.AddRange(callRecords);
-            return await _dbContext.SaveChangesAsync() > 0;
+            _dbContext.BulkInsert(callRecords);
+            await _dbContext.BulkSaveChangesAsync();
+            return true;
+        }
+
+        /// <inheritdoc cref="ICallRecordRepository.Flush" />
+        public async Task Flush()
+        {
+            _dbContext.BulkDelete(_dbContext.CallRecords);
+            await _dbContext.BulkSaveChangesAsync();
         }
     }
 }

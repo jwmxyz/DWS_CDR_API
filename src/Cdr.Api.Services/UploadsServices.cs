@@ -1,4 +1,5 @@
 ﻿using Cdr.Api.Services.CsvMappings;
+using Cdr.Api.Services.Models;
 using Cdr.DataAccess;
 using Crd.DataAccess.Migrations.DbModels;
 using Microsoft.AspNetCore.Http;
@@ -16,12 +17,21 @@ namespace Cdr.Api.Services
             _callRecordRepository = callRecordRepository;
         }
 
-        /// <inheritdoc cref="IUploadsServices.Upload(IFormFile)" />
-        public async Task<bool> Upload(IFormFile file)
+        /// <inheritdoc cref="IUploadsServices.UploadCallRecords(IFormFile)" />
+        public async Task<CsvParsingResults<CallRecord>> UploadCallRecords(IFormFile file)
         {
             var records = _csvServices.Read<CallRecord, CallRecordMapping>(file.OpenReadStream());
-            var result = await _callRecordRepository.SaveCallRecords(records);
-            return result;
+            var dedupredRecords = _csvServices.DeduplicateCallReferences(records);
+            await _callRecordRepository.SaveCallRecords(dedupredRecords.ValidRecords);
+            return dedupredRecords;
+        }
+
+
+
+        /// <inheritdoc cref="IUploadsServices.Flush"/>
+        public async Task Flush()
+        {
+            await _callRecordRepository.Flush();
         }
     }
 }

@@ -35,17 +35,20 @@ namespace Cdr.Api.Services.Tests
             //Act 
             var result = _csvServices.Read<CallRecord, CallRecordMapping>(stream);
             //Assert
-            Assert.IsTrue(result.Count() == 2);
+            Assert.IsTrue(result.ValidRecords.Count() == 2);
         }
 
         [TestMethod]
         [DeploymentItem(@"TestDataFiles/InvalidDateCsv.csv")]
-        public void When_InValidCsvFile_AnExceptionIsThrown()
+        public void When_InValidCsvFile_AnyInvalidDataIsIgnored()
         {
             //Arrange
             var stream = File.OpenRead("InvalidDateCsv.csv");
             //Act & Assert
-            Assert.ThrowsException<InvalidCsvException>(() => _csvServices.Read<CallRecord, CallRecordMapping>(stream));
+            var result = _csvServices.Read<CallRecord, CallRecordMapping>(stream);
+            //Assert
+            Assert.IsTrue(result.ValidRecords.Count() == 1);
+            Assert.IsTrue(result.ParsingErrors.Count() == 1);
         }
     }
 }

@@ -17,7 +17,10 @@ namespace Cdr.DataAcess.Tests
                 .Options;
         }
 
-
+        /*
+         * Bulk Tests can not have UseInMemoryDb because InMemoryProvider does not support Relational-specific methods.
+         * Instead Test options are SqlServer(Developer or Express), LocalDb(if alongside Developer v.), or with other adapters.
+         * https://github.com/borisdj/EFCore.BulkExtensions 
         [TestMethod]
         public async Task When_AddingTwoValidRecords_SaveIsSuccess()
         {
@@ -55,5 +58,6 @@ namespace Cdr.DataAcess.Tests
             //Assert
             Assert.IsTrue(cdrContext.CallRecords.Count() == 2);
         }
+        */
     }
 }
