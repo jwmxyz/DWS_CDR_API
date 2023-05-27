@@ -91,5 +91,5 @@ Tech test for DWS
 	+ Completed files should then be moved into completed blob storage or invalid storage for reprocessing. 
 		
 <p align="center">
-  <img src="./documentation/ExampleFlow.png" height="200px" />
+  <img src="./documentation/ExampleFlow.png" />
 </p>
