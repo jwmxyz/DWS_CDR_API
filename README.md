@@ -4,7 +4,7 @@ Tech test for DWS
 ## Tech
 
 ### Tools
-- Swagger - for API C
+- Swagger - for API documentation
 - Moq - for mocking in unit tests
 - CSvHelper - For parsing CSV
 - EntityFramework (with bulk extensions) - DB Read/Write
@@ -67,7 +67,7 @@ Tech test for DWS
 ### Setup 
 
 - Clone this Repo
-- Navigate to `..\DWS_CDR_API\src\Crd.DataAccess.Migrations`
+- Navigate to `..\src\Crd.DataAccess.Migrations`
 - Within powershell run `dotnet ef database update`
  	+ This will create the SQL lite db
  - Navigate back to the `src` directory
