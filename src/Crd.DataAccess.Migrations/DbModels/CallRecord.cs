@@ -22,7 +22,9 @@ namespace Crd.DataAccess.Migrations.DbModels
         [MaxLength(3)]
         public string CurrencyIsoCode { get; set; }
 
+        // The createdAt should be auto generated - but we use SQLLite so it doesnt work correctlt.
+        // This is a work around
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

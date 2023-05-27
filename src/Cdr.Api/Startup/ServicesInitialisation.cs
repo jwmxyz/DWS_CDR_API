@@ -1,4 +1,8 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Cdr.Api.Services;
+using Cdr.DataAccess;
+using Crd.DataAccess.Migrations;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 namespace Cdr.Api.Startup
@@ -7,13 +11,26 @@ namespace Cdr.Api.Startup
     {
         public static IServiceCollection RegisterApplicationServices(this IServiceCollection services, WebApplicationBuilder builder) {
             RegisterSwagger(services);
+            RegisterDatabaseContextDependencies(services);
             RegisterCustomDependencies(services);
             return services;
         }
 
         private static void RegisterCustomDependencies(IServiceCollection services)
         {
-            services.AddControllers();
+            services
+                .AddScoped<ICsvServices, CsvServices>()
+                .AddScoped<ICallRecordRepository, CallRecordRepository>()
+                .AddScoped<IUploadsServices, UploadsServices>()
+                .AddControllers();
+        }
+
+        private static void RegisterDatabaseContextDependencies(IServiceCollection services)
+        {
+            var migrationsAssembly = Path.GetDirectoryName(Assembly.GetAssembly(typeof(CdrDbContext)).Location);
+            services.AddDbContext<CdrDbContext>(
+                options => { options.UseSqlite($"Data Source={migrationsAssembly}/cdr.db"); }
+            );
         }
 
         /// <summary>

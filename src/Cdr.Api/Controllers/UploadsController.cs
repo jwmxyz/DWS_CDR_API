@@ -1,16 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Cdr.Api.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Cdr.Api.Controllers
 {
     [Route("[controller]"), ApiController]
     public class UploadsController : ControllerBase
     {
-        public UploadsController() { }
+        private readonly IUploadsServices _uploadServices;
+        public UploadsController(IUploadsServices uploadServices) {
+            _uploadServices = uploadServices;
+        }
 
-        [HttpGet, Route("Upload")]
-        public IActionResult Upload()
+        [HttpPost, Route("csv")]
+        public async Task<IActionResult> UploadCsv([FromForm] IFormFile csvFile)
         {
-            return Ok("Hello world");
+            await _uploadServices.Upload(csvFile);
+            return Ok();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Cdr.DataAcess.Tests
 
 
         [TestMethod]
-        public async Task TestMethod1()
+        public async Task When_AddingTwoValidRecords_SaveIsSuccess()
         {
             //arrange 
             var cdrContext = new CdrDbContext(_dbContextOptions);
