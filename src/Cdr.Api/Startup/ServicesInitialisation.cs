@@ -28,6 +28,7 @@ namespace Cdr.Api.Startup
                 .AddScoped<ICallRecordRepository, CallRecordRepository>()
                 .AddScoped<IUploadsServices, UploadsServices>()
                 .AddScoped<ICdrErrorManager, CdrErrorManager>()
+                .AddScoped<ICallRecordServices, CallRecordServices>()
                 .AddControllers(opt =>
                 {
                     opt.Filters.Add(typeof(CdrExceptionFilter));

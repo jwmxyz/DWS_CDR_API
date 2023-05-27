@@ -18,6 +18,8 @@ namespace Cdr.Api.Controllers
             return Ok(result);
         }
 
+
+
         [HttpDelete, Route("Flush")]
         public async Task<IActionResult> Flush()
         {

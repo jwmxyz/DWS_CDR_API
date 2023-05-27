@@ -24,6 +24,16 @@ namespace Cdr.Api.Pipeline.Filters
                 return;
             }
 
+            if (exceptionContext.Exception.GetType() == typeof(NotFoundException))
+            {
+                logger?.LogWarning($"The resource could not be found", exceptionContext.Exception.Message);
+                exceptionContext.Result = new ObjectResult(new CdrStandardResult(null, true, errorManager[ErrorCodes.NOT_FOUND]))
+                {
+                    StatusCode = StatusCodes.Status404NotFound,
+                };
+                return;
+            }
+
             logger?.LogError($"An Error occured that was unhandled: {exceptionContext.Exception}");
             exceptionContext.Result = new ObjectResult(new CdrStandardResult(null, true, errorManager[ErrorCodes.INTERNAL_SERVER_ERROR]))
             {
