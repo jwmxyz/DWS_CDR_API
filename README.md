@@ -1,7 +1,7 @@
 # DWS_CDR_API
 Tech test for DWS
 
-Hosted [here]("https://dws.jwm.xyz/swagger/index.html")
+Hosted [here](https://dws.jwm.xyz/swagger/index.html)
 
 ## Tech
 
