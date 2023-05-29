@@ -1,6 +1,8 @@
 # DWS_CDR_API
 Tech test for DWS
 
+Hosted [here]("https://dws.jwm.xyz/swagger/index.html")
+
 ## Tech
 
 ### Tools
@@ -76,10 +78,11 @@ Tech test for DWS
  - Swagger documentation will be `http://localhost:<port>/swagger/index.html`
 
 ### Improvements/Enhancements
-- Improved test cases and test coverage (unit tests)
+- Improved test cases and test coverage (unit/E2E/integration tests)
 - Improved Postman collection covering all flows with tests.
 - Improved Logging integration
 - Improved Swagger documentation/examples inline with OAS
+- API Versioning
 - This API should not write bulk files to the database AND function as an API.
 	+ A potential alternative is the API should take any incoming `.csv` files and push them to blob storage `waiting` folder
 		* A Job should be created for tracking
